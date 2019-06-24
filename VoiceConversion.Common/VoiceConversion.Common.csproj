@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <Folder Include="Entity\" />
+    <Folder Include="Util\" />
   </ItemGroup>
   <ItemGroup>
         <PackageReference Include="NumSharp" Version="0.10.3" />
