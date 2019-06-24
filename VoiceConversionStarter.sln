@@ -1,0 +1,23 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VoiceConversionStarter.Console", "VoiceConversionStarter.Console\VoiceConversionStarter.Console.csproj", "{2B7F97B3-350F-4580-B6D6-C0D457B23534}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VoiceConversionStarter.Common", "VoiceConversionStarter.Common\VoiceConversionStarter.Common.csproj", "{56DD2928-3C48-498A-BAB0-CA3503EE2B60}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2B7F97B3-350F-4580-B6D6-C0D457B23534}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B7F97B3-350F-4580-B6D6-C0D457B23534}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B7F97B3-350F-4580-B6D6-C0D457B23534}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B7F97B3-350F-4580-B6D6-C0D457B23534}.Release|Any CPU.Build.0 = Release|Any CPU
+		{56DD2928-3C48-498A-BAB0-CA3503EE2B60}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{56DD2928-3C48-498A-BAB0-CA3503EE2B60}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{56DD2928-3C48-498A-BAB0-CA3503EE2B60}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{56DD2928-3C48-498A-BAB0-CA3503EE2B60}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
