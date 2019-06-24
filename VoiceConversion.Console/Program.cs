@@ -10,7 +10,7 @@ using Microsoft.ML.Transforms;
 using VoiceConversion.Common.Entity;
 using static Microsoft.ML.Transforms.NormalizingTransformer;
 
-namespace VoiceConversion.TrainApp
+namespace VoiceConversion.Console
 {
     class Program
     {
