@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VoiceConversion.Console", "VoiceConversion.Console\VoiceConversion.Console.csproj", "{2B7F97B3-350F-4580-B6D6-C0D457B23534}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VoiceConversionStarter.Console", "VoiceConversionStarter.Console\VoiceConversionStarter.Console.csproj", "{2B7F97B3-350F-4580-B6D6-C0D457B23534}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VoiceConversion.Common", "VoiceConversion.Common\VoiceConversion.Common.csproj", "{56DD2928-3C48-498A-BAB0-CA3503EE2B60}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VoiceConversionStarter.Common", "VoiceConversionStarter.Common\VoiceConversionStarter.Common.csproj", "{56DD2928-3C48-498A-BAB0-CA3503EE2B60}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -4,7 +4,7 @@ using System.Linq;
 using System.IO;
 using NumSharp;
 
-namespace VoiceConversion.Common.Entity
+namespace VoiceConversionStarter.Common.Entity
 {
     public class Frame
     {

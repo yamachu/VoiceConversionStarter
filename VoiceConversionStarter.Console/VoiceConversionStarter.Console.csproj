@@ -11,6 +11,6 @@
     <PackageReference Include="Microsoft.ML.TensorFlow" Version="0.13.0" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\VoiceConversion.Common\VoiceConversion.Common.csproj" />
+    <ProjectReference Include="..\VoiceConversionStarter.Common\VoiceConversionStarter.Common.csproj" />
   </ItemGroup>
 </Project>

@@ -7,10 +7,10 @@ using CommandLine;
 using Microsoft.ML;
 using Microsoft.ML.Data;
 using Microsoft.ML.Transforms;
-using VoiceConversion.Common.Entity;
+using VoiceConversionStarter.Common.Entity;
 using static Microsoft.ML.Transforms.NormalizingTransformer;
 
-namespace VoiceConversion.Console
+namespace VoiceConversionStarter.Console
 {
     class Program
     {
@@ -33,8 +33,7 @@ namespace VoiceConversion.Console
 
         static int Train(TrainMcapOptions opts)
         {
-            Console.WriteLine("Run Train");
-
+            System.Console.WriteLine("Run Train");
             var sourceFiles = Directory.GetFiles(opts.SourceDir, "*.npy").OrderBy(n => n);
             var targetFiles = Directory.GetFiles(opts.TargetDir, "*.npy").OrderBy(n => n);
 

@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using NumSharp;
 
-namespace VoiceConversion.Common.Util
+namespace VoiceConversionStarter.Common.Util
 {
     public static class IO
     {
