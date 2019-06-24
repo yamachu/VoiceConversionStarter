@@ -116,7 +116,7 @@ namespace VoiceConversionStarter.Console
     {
         public int FinishCount { get; private set; } = 0;
         public int Epoch { get; }
-        private TimeSpan elapsed = TimeSpan.Zero;
+        public TimeSpan Elapsed { get; private set; } = TimeSpan.Zero;
 
         public ProgressReporter(int epoch)
         {
@@ -131,8 +131,8 @@ namespace VoiceConversionStarter.Console
             if (FinishCount > Epoch) return;
             var elapsedLike = log.Message.Split().Last().TrimEnd('.');
             var currentElapsed = TimeSpan.ParseExact(elapsedLike, @"hh\:mm\:ss\.fffffff", CultureInfo.CurrentCulture);
-            elapsed += currentElapsed;
-            var rest = TimeSpan.FromSeconds((elapsed.TotalSeconds / FinishCount) * Epoch - elapsed.TotalSeconds);
+            Elapsed += currentElapsed;
+            var rest = TimeSpan.FromSeconds((Elapsed.TotalSeconds / FinishCount) * Epoch - Elapsed.TotalSeconds);
             System.Console.WriteLine($"残り: {rest.ToString(@"hh\:mm\:ss")}, epoch: {FinishCount} / {Epoch}");
         }
     }
