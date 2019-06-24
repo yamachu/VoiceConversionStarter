@@ -15,7 +15,6 @@ namespace VoiceConversionStarter.Console
     class Program
     {
         [Verb("train-mcep", HelpText = "train mcep-model")]
-
         class TrainMcapOptions
         {
             [Option("base", Required = true, HelpText = "base tensorflow model dir.")]
