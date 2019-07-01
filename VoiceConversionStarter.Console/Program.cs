@@ -28,6 +28,9 @@ namespace VoiceConversionStarter.Console
 
             [Option("save-dir", Default = ".", HelpText = "to save model and statistic files dir.")]
             public string SaveDir { get; set; }
+
+            [Option("epoch", Default = 20, HelpText = "train epoch.")]
+            public int Epoch { get; set; }
         }
 
         static int Train(TrainMcapOptions opts)
@@ -72,12 +75,12 @@ namespace VoiceConversionStarter.Console
                             labelColumnName: tfOutputName,
                             tensorFlowLabel: tfOutputName,
                             optimizationOperation: "Optimizer",
-                            epoch: 1,
+                            epoch: opts.Epoch,
                             learningRateOperation: "learning_rate",
                             lossOperation: "Loss"
                         );
 
-            var logger = new ProgressReporter(1);
+            var logger = new ProgressReporter(opts.Epoch);
             mlContext.Log += logger.Log;
 
             var model = pipeline.Fit(normalizedData);
