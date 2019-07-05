@@ -11,7 +11,7 @@ namespace VoiceConversionStarter.Common.Util
         {
             var dirSeparate = path.Split(new[] { System.IO.Path.DirectorySeparatorChar });
             var dir = string.Join(System.IO.Path.DirectorySeparatorChar.ToString(), dirSeparate.Take(dirSeparate.Length - 1));
-            System.IO.Directory.CreateDirectory(dir);
+            if (dir != "") System.IO.Directory.CreateDirectory(dir);
             np.Save(arr, path);
         }
 
