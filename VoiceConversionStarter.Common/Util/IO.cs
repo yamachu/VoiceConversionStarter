@@ -1,4 +1,6 @@
-﻿using System.Linq;
+using System;
+using System.Collections;
+using System.Linq;
 using NumSharp;
 
 namespace VoiceConversionStarter.Common.Util
@@ -11,6 +13,11 @@ namespace VoiceConversionStarter.Common.Util
             var dir = string.Join(System.IO.Path.DirectorySeparatorChar.ToString(), dirSeparate.Take(dirSeparate.Length - 1));
             System.IO.Directory.CreateDirectory(dir);
             np.Save(arr, path);
+        }
+
+        public static T LoadNPY<T>(string path) where T : class, ICloneable, IList, ICollection, IEnumerable, IStructuralComparable, IStructuralEquatable
+        {
+            return np.Load<T>(path: path);
         }
     }
 }
