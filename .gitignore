@@ -408,3 +408,4 @@ ASALocalRun/
 Networks/.venv/
 Models/*
 !.gitkeep
+*.npy
