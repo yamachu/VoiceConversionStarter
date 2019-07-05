@@ -60,9 +60,9 @@ namespace VoiceConversionStarter.Console
 
             var preparePipeline = mlContext.Transforms.Concatenate(tfOutputName, nameof(Frame.Targets))
                 .Append(mlContext.Transforms.Concatenate(tfInputName, nameof(Frame.Sources)))
-                .Append(mlContext.Transforms.NormalizeMeanVariance(tfInputName, useCdf: true)
+                .Append(mlContext.Transforms.NormalizeMeanVariance(tfInputName)
                     .WithOnFitDelegate(v => sourceNormalizeTransformer = v))
-                .Append(mlContext.Transforms.NormalizeMeanVariance(tfOutputName, useCdf: true)
+                .Append(mlContext.Transforms.NormalizeMeanVariance(tfOutputName)
                     .WithOnFitDelegate(v => targetNormalizeTransformaer = v))
                 .AppendCacheCheckpoint(mlContext);
 
@@ -98,13 +98,13 @@ namespace VoiceConversionStarter.Console
                 mlContext.Model.Save(model, tfInputDataScheme.Schema, stream);
             }
 
-            var sourceMVParams = sourceNormalizeTransformer.GetNormalizerModelParameters(0) as CdfNormalizerModelParameters<ImmutableArray<float>>;
-            Common.Util.IO.SaveAsNPY(sourceMVParams.Mean.ToArray(), $"{opts.SaveDir}{sep}Source{sep}Means");
-            Common.Util.IO.SaveAsNPY(sourceMVParams.StandardDeviation.ToArray(), $"{opts.SaveDir}{sep}Source{sep}Vars");
+            var sourceMVParams = sourceNormalizeTransformer.GetNormalizerModelParameters(0) as AffineNormalizerModelParameters<ImmutableArray<float>>;
+            Common.Util.IO.SaveAsNPY(sourceMVParams.Offset.ToArray(), $"{opts.SaveDir}{sep}Source{sep}Means");
+            Common.Util.IO.SaveAsNPY(sourceMVParams.Scale.ToArray(), $"{opts.SaveDir}{sep}Source{sep}Vars");
 
-            var targetMVParams = targetNormalizeTransformaer.GetNormalizerModelParameters(0) as CdfNormalizerModelParameters<ImmutableArray<float>>;
-            Common.Util.IO.SaveAsNPY(targetMVParams.Mean.ToArray(), $"{opts.SaveDir}{sep}Target{sep}Means");
-            Common.Util.IO.SaveAsNPY(targetMVParams.StandardDeviation.ToArray(), $"{opts.SaveDir}{sep}Target{sep}Vars");
+            var targetMVParams = targetNormalizeTransformaer.GetNormalizerModelParameters(0) as AffineNormalizerModelParameters<ImmutableArray<float>>;
+            Common.Util.IO.SaveAsNPY(targetMVParams.Offset.ToArray(), $"{opts.SaveDir}{sep}Target{sep}Means");
+            Common.Util.IO.SaveAsNPY(targetMVParams.Scale.ToArray(), $"{opts.SaveDir}{sep}Target{sep}Vars");
 
             return 0;
         }
