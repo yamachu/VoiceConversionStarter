@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Immutable;
 using System.Globalization;
 using System.IO;
@@ -44,12 +44,12 @@ namespace VoiceConversionStarter.Console
 
             var template = datasets.First();
 
-            var scheme = SchemaDefinition.Create(typeof(Frame));
-            scheme[nameof(Frame.Sources)].ColumnType = new VectorDataViewType(NumberDataViewType.Single, template.Sources.Length);
-            scheme[nameof(Frame.Targets)].ColumnType = new VectorDataViewType(NumberDataViewType.Single, template.Targets.Length);
+            var trainScheme = SchemaDefinition.Create(typeof(Frame));
+            trainScheme[nameof(Frame.Sources)].ColumnType = new VectorDataViewType(NumberDataViewType.Single, template.Sources.Length);
+            trainScheme[nameof(Frame.Targets)].ColumnType = new VectorDataViewType(NumberDataViewType.Single, template.Targets.Length);
 
             var mlContext = new MLContext(seed: 555);
-            var data = mlContext.Data.LoadFromEnumerable(datasets, scheme);
+            var data = mlContext.Data.LoadFromEnumerable(datasets, trainScheme);
 
             var tfInputName = "X";
             var tfOutputName = "Y";
@@ -90,7 +90,12 @@ namespace VoiceConversionStarter.Console
 
             using (var stream = File.Create($"{opts.SaveDir}{sep}Model"))
             {
-                mlContext.Model.Save(model, data.Schema, stream);
+                var tfInputScheme = SchemaDefinition.Create(typeof(SourceFrame));
+                tfInputScheme[nameof(SourceFrame.X)].ColumnType = new VectorDataViewType(NumberDataViewType.Single, template.Sources.Length);
+
+                var tfInputDataScheme = mlContext.Data.LoadFromEnumerable(new SourceFrame[] { }, tfInputScheme);
+
+                mlContext.Model.Save(model, tfInputDataScheme.Schema, stream);
             }
 
             var sourceMVParams = sourceNormalizeTransformer.GetNormalizerModelParameters(0) as CdfNormalizerModelParameters<ImmutableArray<float>>;
