@@ -6,6 +6,16 @@ using NumSharp;
 
 namespace VoiceConversionStarter.Common.Entity
 {
+    public class SourceFrame
+    {
+        public float[] X { get; set; }
+    }
+
+    public class TargetFrame
+    {
+        public float[] Converted { get; set; }
+    }
+
     public class Frame
     {
         public float[] Sources { get; set; }
