@@ -20,9 +20,9 @@ h3 = tf.layers.dense(inputs=h2,units=hidden_size,activation=tf.nn.leaky_relu)
 W = tf.Variable(tf.random_normal([hidden_size,output_size], stddev=0.1), name = 'W4')
 b = tf.Variable(tf.zeros([output_size]), name = 'b4')
 
-Converted = tf.add(tf.matmul(h3, W), b, name='Converted')
+Converted = tf.add(tf.add(tf.matmul(h3, W), b), X, name = 'Converted')
 
-diff = tf.subtract(tf.add(Converted, X), Y)
+diff = tf.subtract(Converted, Y)
 loss = tf.nn.l2_loss(diff)
 loss = tf.identity(loss, name="Loss")
 optimizer = tf.train.AdamOptimizer(learning_rate=lr, name='Optimizer').minimize(loss)
