@@ -33,6 +33,25 @@ namespace VoiceConversionStarter.Console
             public int Epoch { get; set; }
         }
 
+        [Verb("eval-mcep", HelpText = "eval mcep-model")]
+        class EvalMcapOptions
+        {
+            [Option("model", Required = true, HelpText = "trained model.")]
+            public string Model { get; set; }
+
+            [Option("source-dir", Required = true, HelpText = "source statistics dir.")]
+            public string SourceParam { get; set; }
+
+            [Option("target-dir", Required = true, HelpText = "target statistics dir.")]
+            public string TargetParam { get; set; }
+
+            [Option('i', "input", Required = true, HelpText = "input npy.")]
+            public string Input { get; set; }
+
+            [Option('o', "output", Default = "out.npy", HelpText = "converted npy.")]
+            public string Output { get; set; }
+        }
+
         static int Train(TrainMcapOptions opts)
         {
             System.Console.WriteLine("Run Train");
@@ -110,11 +129,45 @@ namespace VoiceConversionStarter.Console
             return 0;
         }
 
+        static int Eval(EvalMcapOptions opts)
+        {
+            var mlContext = new MLContext(seed: 555);
+
+            var sep = System.IO.Path.DirectorySeparatorChar;
+
+            var sourceMean = Common.Util.IO.LoadNPY<float[]>($"{opts.SourceParam}{sep}Means.npy");
+            var sourceVar = Common.Util.IO.LoadNPY<float[]>($"{opts.SourceParam}{sep}Vars.npy");
+
+            var targetMean = Common.Util.IO.LoadNPY<float[]>($"{opts.TargetParam}{sep}Means.npy");
+            var targetVar = Common.Util.IO.LoadNPY<float[]>($"{opts.TargetParam}{sep}Vars.npy");
+
+            var tfModel = mlContext.Model.Load(opts.Model, out var inputSchema);
+
+            var schema = SchemaDefinition.Create(typeof(SourceFrame));
+            var schemaInputCol = inputSchema.Single((v) => v.Name == nameof(SourceFrame.X));
+            schema[schemaInputCol.Name].ColumnType = schemaInputCol.Type;
+
+            var predictor = mlContext.Model.CreatePredictionEngine<SourceFrame, TargetFrame>(tfModel, inputSchemaDefinition: schema);
+
+            var data = Common.Util.IO.LoadNPY<float[,]>(opts.Input);
+            var sourceFrames = Common.Util.Matrix.To2JaggedArray(data).Select(v => new SourceFrame { X = v });
+
+            var converted = sourceFrames
+            .Select(v => Common.Util.Matrix.Mul(Common.Util.Matrix.Sub(v.X, sourceMean), sourceVar))
+            .Select(v => predictor.Predict(new SourceFrame { X = v }))
+            .Select(v => Common.Util.Matrix.Div(Common.Util.Matrix.Add(v.Converted, targetMean), targetVar));
+
+            Common.Util.IO.SaveAsNPY(Common.Util.Matrix.To2DimArray(converted.ToArray()), opts.Output);
+
+            return 0;
+        }
+
         static int Main(string[] args)
         {
-            return CommandLine.Parser.Default.ParseArguments<TrainMcapOptions>(args)
+            return CommandLine.Parser.Default.ParseArguments<TrainMcapOptions, EvalMcapOptions>(args)
                 .MapResult(
                     (TrainMcapOptions opts) => Train(opts),
+                    (EvalMcapOptions opts) => Eval(opts),
                     errs => 1
                 );
         }
