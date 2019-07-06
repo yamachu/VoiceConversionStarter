@@ -58,11 +58,11 @@ namespace VoiceConversionStarter.Console
             NormalizingTransformer sourceNormalizeTransformer = null;
             NormalizingTransformer targetNormalizeTransformaer = null;
 
-            var preparePipeline = mlContext.Transforms.Concatenate(tfOutputName, nameof(Frame.Targets))
-                .Append(mlContext.Transforms.Concatenate(tfInputName, nameof(Frame.Sources)))
-                .Append(mlContext.Transforms.NormalizeMeanVariance(tfInputName)
+            var preparePipeline = mlContext.Transforms.Concatenate($"{tfOutputName}_Raw", nameof(Frame.Targets))
+                .Append(mlContext.Transforms.Concatenate($"{tfInputName}_Raw", nameof(Frame.Sources)))
+                .Append(mlContext.Transforms.NormalizeMeanVariance(tfInputName, $"{tfInputName}_Raw", fixZero: false)
                     .WithOnFitDelegate(v => sourceNormalizeTransformer = v))
-                .Append(mlContext.Transforms.NormalizeMeanVariance(tfOutputName)
+                .Append(mlContext.Transforms.NormalizeMeanVariance(tfOutputName, $"{tfOutputName}_Raw", fixZero: false)
                     .WithOnFitDelegate(v => targetNormalizeTransformaer = v))
                 .AppendCacheCheckpoint(mlContext);
 
