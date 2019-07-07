@@ -88,6 +88,7 @@ namespace VoiceConversionStarter.Console
             // Save model and statistics
             var sep = System.IO.Path.DirectorySeparatorChar;
 
+            Common.Util.IO.CreateDirectory(opts.SaveDir);
             using (var stream = File.Create($"{opts.SaveDir}{sep}Model"))
             {
                 var tfInputScheme = SchemaDefinition.Create(typeof(SourceFrame));
