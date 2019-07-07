@@ -19,5 +19,11 @@ namespace VoiceConversionStarter.Common.Util
         {
             return np.Load<T>(path: path);
         }
+
+        public static void CreateDirectory(string path)
+        {
+            if (System.IO.Directory.Exists(path)) return;
+            System.IO.Directory.CreateDirectory(path);
+        }
     }
 }
