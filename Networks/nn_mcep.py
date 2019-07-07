@@ -26,7 +26,7 @@ W = tf.Variable(tf.random_normal([hidden_size, output_size], stddev=0.1), name='
 b = tf.Variable(tf.zeros([output_size]), name='b4')
 Converted = tf.add(tf.add(tf.matmul(h3, W), b), X, name='Converted')
 
-loss = tf.nn.l2_loss(tf.subtract(Converted, Y), name='Loss')
+loss = tf.reduce_mean(tf.square(Y - Converted), name='Loss')
 optimizer = tf.train.AdamOptimizer(learning_rate=lr).minimize(loss, name='Optimizer')
 
 init = tf.global_variables_initializer()
