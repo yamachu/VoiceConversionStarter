@@ -24,7 +24,7 @@ h3 = tf.layers.dense(inputs=h2, units=hidden_size, activation=tf.nn.leaky_relu)
 
 W = tf.Variable(tf.random_normal([hidden_size, output_size], stddev=0.1), name='W4')
 b = tf.Variable(tf.zeros([output_size]), name='b4')
-Converted = tf.add(tf.matmul(h3, W), b, name='Converted')
+Converted = tf.add(tf.add(tf.matmul(h3, W), b), X, name='Converted')
 
 loss = tf.reduce_mean(tf.square(Y - Converted), name='Loss')
 optimizer = tf.train.AdamOptimizer(learning_rate=lr).minimize(loss, name='Optimizer')
@@ -35,7 +35,7 @@ with tf.Session() as sess:
     sess.run(init)
     tf.saved_model.simple_save(
         sess,
-        '../Models/McepNN/model',
+        '../Models/McepNN_Res/model',
         inputs={'X': X, 'Y': Y},
         outputs={'Converted': Converted}
     )
