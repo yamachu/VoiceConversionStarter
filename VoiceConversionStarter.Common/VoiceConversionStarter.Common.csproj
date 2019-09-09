@@ -9,6 +9,6 @@
     <Folder Include="Util\" />
   </ItemGroup>
   <ItemGroup>
-        <PackageReference Include="NumSharp" Version="0.10.3" />
+    <PackageReference Include="NumSharp" Version="0.10.6" />
   </ItemGroup>
 </Project>

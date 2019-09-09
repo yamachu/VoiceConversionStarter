@@ -68,16 +68,17 @@ namespace VoiceConversionStarter.Console
 
             var normalizedData = preparePipeline.Fit(data).Transform(data);
 
-            var pipeline = mlContext.Model.LoadTensorFlowModel(opts.BaseModel)
-                        .RetrainTensorFlowModel(
+            var pipeline = mlContext.Model.RetrainDnnModel
+                        (
                             inputColumnNames: new[] { tfInputName },
                             outputColumnNames: new[] { "Converted" },
                             labelColumnName: tfOutputName,
-                            tensorFlowLabel: tfOutputName,
+                            dnnLabel: tfOutputName,
                             optimizationOperation: "Optimizer",
                             epoch: opts.Epoch,
                             learningRateOperation: "learning_rate",
-                            lossOperation: "Loss"
+                            lossOperation: "Loss",
+                            modelPath: opts.BaseModel
                         );
 
             var logger = new ProgressReporter(opts.Epoch);
@@ -133,7 +134,7 @@ namespace VoiceConversionStarter.Console
 
         public void Log(object sender, LoggingEventArgs log)
         {
-            if (!log.Message.Contains("TensorFlowTransformer")) return;
+            if (!log.Message.Contains("DnnRetrainTransformer")) return;
             if (!log.Message.Contains("Elapsed")) return;
             FinishCount++;
             if (FinishCount > Epoch) return;
