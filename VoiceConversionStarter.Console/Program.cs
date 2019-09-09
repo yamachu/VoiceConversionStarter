@@ -134,7 +134,7 @@ namespace VoiceConversionStarter.Console
 
         public void Log(object sender, LoggingEventArgs log)
         {
-            if (!log.Message.Contains("TensorFlowTransformer")) return;
+            if (!log.Message.Contains("DnnRetrainTransformer")) return;
             if (!log.Message.Contains("Elapsed")) return;
             FinishCount++;
             if (FinishCount > Epoch) return;
